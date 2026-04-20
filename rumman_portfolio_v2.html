@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rumman Aftab — AI/ML Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#000308;
+  --deep:#030814;
+  --panel:rgba(255,255,255,0.03);
+  --glass:rgba(255,255,255,0.06);
+  --rim:rgba(255,255,255,0.08);
+  --rimhi:rgba(255,255,255,0.15);
+  --cyan:#00d4ff;
+  --cyan2:#00a8cc;
+  --violet:#7c3fff;
+  --orange:#ff5c1a;
+  --text:#dde4f0;
+  --muted:#4a5568;
+  --muted2:#6b7a96;
+  --font-display:'Orbitron',sans-serif;
+  --font-body:'Space Grotesk',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--text);font-family:var(--font-body);overflow-x:hidden;cursor:none}
+
+/* ── CURSOR ── */
+#cur{width:8px;height:8px;background:var(--cyan);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;mix-blend-mode:screen}
+#cur2{width:32px;height:32px;border:1px solid rgba(0,212,255,.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .1s ease-out,width .25s,height .25s}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:16px;height:16px}
+body:has(a:hover) #cur2,body:has(button:hover) #cur2{width:48px;height:48px}
+
+/* ── SCROLL BAR ── */
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-track{background:var(--void)}
+::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:2px}
+
+/* ── PROGRESS ── */
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan));z-index:1000;transition:width .1s}
+
+/* ── NOISE OVERLAY ── */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:0}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.2rem 5rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(24px) saturate(180%);background:rgba(0,3,8,0.7);border-bottom:1px solid var(--rim)}
+.logo{font-family:var(--font-display);font-size:.9rem;color:var(--cyan);letter-spacing:.15em;text-decoration:none;font-weight:700}
+.logo span{color:var(--text);opacity:.4}
+nav ul{display:flex;gap:2.5rem;list-style:none}
+nav a{color:var(--muted2);text-decoration:none;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-family:var(--font-mono);transition:color .2s;position:relative}
+nav a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--cyan);transition:width .25s}
+nav a:hover{color:var(--cyan)}
+nav a:hover::after{width:100%}
+.nav-cta{background:transparent;border:1px solid rgba(0,212,255,.3);color:var(--cyan);padding:.45rem 1.2rem;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;cursor:pointer;text-decoration:none;text-transform:uppercase;transition:all .25s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.nav-cta:hover{background:rgba(0,212,255,.08);border-color:var(--cyan)}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:0 5rem;overflow:hidden}
+canvas#bg{position:absolute;inset:0;z-index:1;opacity:.6}
+.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 420px;gap:5rem;align-items:center;max-width:1280px;margin:0 auto;width:100%;padding-top:5rem}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.5rem}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--cyan)}
+.pulse-dot{width:5px;height:5px;background:var(--cyan);border-radius:50%;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.5)}50%{box-shadow:0 0 0 6px rgba(0,212,255,0)}}
+h1.hero-name{font-family:var(--font-display);font-size:clamp(2.8rem,4.5vw,5.2rem);font-weight:900;line-height:1;letter-spacing:.04em;margin-bottom:.4rem}
+h1.hero-name .first{display:block;color:var(--text)}
+h1.hero-name .last{display:block;background:linear-gradient(135deg,var(--cyan) 0%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-role{font-family:var(--font-mono);font-size:.82rem;letter-spacing:.2em;color:var(--muted2);text-transform:uppercase;margin-bottom:2rem}
+.hero-bio{font-size:.9rem;line-height:1.85;color:rgba(221,228,240,.65);max-width:500px;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:1rem}
+.btn-fill{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#000;border:none;padding:.8rem 2rem;font-family:var(--font-display);font-weight:700;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all .3s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));display:inline-block}
+.btn-fill:hover{box-shadow:0 0 30px rgba(0,212,255,.4);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--rim);padding:.8rem 2rem;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all .3s;display:inline-block}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--muted);z-index:2}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:scrollAnim 1.8s ease infinite}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── 3D PROFILE CARD ── */
+.profile-scene{perspective:900px}
+.profile-card{width:100%;background:linear-gradient(145deg,rgba(0,212,255,.07) 0%,rgba(124,63,255,.05) 60%,rgba(255,92,26,.04) 100%);border:1px solid var(--rim);border-radius:20px;padding:2.5rem;transform:rotateY(-12deg) rotateX(6deg);transform-style:preserve-3d;transition:transform .6s ease;position:relative;overflow:hidden}
+.profile-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.4),transparent)}
+.profile-card::after{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(ellipse 80% 80% at 80% 0%,rgba(0,212,255,.05),transparent);pointer-events:none}
+.profile-card:hover{transform:rotateY(0deg) rotateX(0deg) translateY(-8px);box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(0,212,255,.15),0 0 60px rgba(0,212,255,.06)}
+.pc-header{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
+.pc-avatar{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:#000;flex-shrink:0;box-shadow:0 0 20px rgba(0,212,255,.2)}
+.pc-name{font-family:var(--font-display);font-size:.85rem;font-weight:700;letter-spacing:.08em;margin-bottom:.2rem}
+.pc-tag{font-family:var(--font-mono);font-size:.6rem;color:var(--cyan);letter-spacing:.18em;text-transform:uppercase}
+.pc-divider{height:1px;background:var(--rim);margin-bottom:1.5rem}
+.pc-stats{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.pc-stat{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:.9rem;text-align:center}
+.pc-stat-n{font-family:var(--font-display);font-size:1.2rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pc-stat-l{font-family:var(--font-mono);font-size:.55rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.pc-skills{display:flex;flex-wrap:wrap;gap:.4rem}
+.pc-skill{background:rgba(124,63,255,.12);border:1px solid rgba(124,63,255,.2);color:#b39dff;font-family:var(--font-mono);font-size:.58rem;padding:.22rem .55rem;border-radius:4px;letter-spacing:.06em}
+.pc-status{display:flex;align-items:center;gap:.5rem;margin-top:1.2rem;padding:.6rem .8rem;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.1);border-radius:8px}
+.pc-status-dot{width:6px;height:6px;background:#00ff88;border-radius:50%;flex-shrink:0;animation:pulse 2s infinite}
+.pc-status-t{font-family:var(--font-mono);font-size:.6rem;color:rgba(0,255,136,.8);letter-spacing:.1em}
+
+/* ── SECTION COMMON ── */
+section{position:relative;z-index:1}
+.sw{max-width:1280px;margin:0 auto;padding:7rem 5rem}
+.sec-label{display:inline-flex;align-items:center;gap:.8rem;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan);margin-bottom:.8rem}
+.sec-label::before{content:'';width:28px;height:1px;background:var(--cyan)}
+.sec-title{font-family:var(--font-display);font-size:clamp(2rem,3.2vw,3.4rem);font-weight:900;line-height:1.05;letter-spacing:.04em;margin-bottom:.5rem}
+.sec-title em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ── ABOUT ── */
+#about{background:linear-gradient(180deg,var(--void) 0%,var(--deep) 100%)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.about-text{font-size:.87rem;line-height:1.9;color:rgba(221,228,240,.68)}
+.about-text p+p{margin-top:1rem}
+.edu-timeline{margin-top:2.5rem}
+.edu-row{display:flex;gap:1.5rem;padding:1.2rem 0;border-bottom:1px solid var(--rim);position:relative}
+.edu-row::before{content:'';position:absolute;left:-1px;top:0;bottom:0;width:1px;background:var(--rim)}
+.edu-yr{font-family:var(--font-mono);font-size:.6rem;color:var(--cyan);letter-spacing:.1em;width:42px;flex-shrink:0;padding-top:4px}
+.edu-info strong{font-family:var(--font-body);font-size:.88rem;font-weight:600;display:block;margin-bottom:.15rem;color:var(--text)}
+.edu-info span{font-family:var(--font-mono);font-size:.65rem;color:var(--muted2)}
+.skills-panel{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+.sk-card{background:var(--panel);border:1px solid var(--rim);border-radius:12px;padding:1.25rem;transition:all .3s;position:relative;overflow:hidden}
+.sk-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--violet));transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.sk-card:hover{border-color:rgba(0,212,255,.2);transform:translateY(-3px)}
+.sk-card:hover::before{transform:scaleX(1)}
+.sk-icon{font-size:1.3rem;margin-bottom:.6rem}
+.sk-card h4{font-family:var(--font-body);font-size:.82rem;font-weight:600;margin-bottom:.4rem}
+.sk-card p{font-family:var(--font-mono);font-size:.63rem;color:var(--muted2);line-height:1.6}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--rim),transparent);margin:0 5rem}
+
+/* ── PROJECTS ── */
+#projects{background:var(--void)}
+.projects-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem}
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem}
+.proj-card{background:var(--panel);border:1px solid var(--rim);border-radius:16px;padding:2.2rem;position:relative;overflow:hidden;transition:all .4s;cursor:default}
+.proj-card::before{content:'';position:absolute;inset:0;border-radius:16px;opacity:0;transition:opacity .35s;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(0,212,255,.05),transparent 40%)}
+.proj-card:hover{border-color:rgba(0,212,255,.18);transform:translateY(-5px);box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.proj-card:hover::before{opacity:1}
+.proj-num{font-family:var(--font-display);font-size:4rem;font-weight:900;color:rgba(0,212,255,.06);line-height:1;position:absolute;top:1.2rem;right:1.8rem;letter-spacing:.05em}
+.proj-type{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:.5rem}
+.proj-title{font-family:var(--font-body);font-weight:700;font-size:1.05rem;line-height:1.3;margin-bottom:1rem;max-width:85%;color:var(--text)}
+.proj-desc{font-family:var(--font-mono);font-size:.67rem;line-height:1.85;color:rgba(221,228,240,.58);margin-bottom:1.5rem}
+.proj-kpis{display:flex;gap:.8rem;margin-bottom:1.4rem}
+.kpi{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.1);border-radius:7px;padding:.5rem .9rem;text-align:center}
+.kpi-v{font-family:var(--font-display);font-size:.95rem;font-weight:700;color:var(--cyan);display:block}
+.kpi-l{font-family:var(--font-mono);font-size:.54rem;color:var(--muted2);letter-spacing:.08em;text-transform:uppercase}
+.tech-row{display:flex;flex-wrap:wrap;gap:.35rem}
+.tech{background:rgba(255,255,255,.04);border:1px solid var(--rim);font-family:var(--font-mono);font-size:.58rem;padding:.2rem .55rem;border-radius:4px;color:var(--muted2)}
+
+/* ── THESIS ── */
+#thesis{background:linear-gradient(180deg,var(--deep) 0%,var(--void) 100%)}
+#thesis::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(124,63,255,.07) 0%,transparent 70%);pointer-events:none}
+.thesis-hero-card{background:linear-gradient(135deg,rgba(124,63,255,.07) 0%,rgba(0,212,255,.05) 60%,rgba(255,92,26,.03) 100%);border:1px solid rgba(124,63,255,.2);border-radius:20px;padding:3rem;margin-top:3rem;position:relative;overflow:hidden}
+.thesis-hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(124,63,255,.5),rgba(0,212,255,.3),transparent)}
+.thesis-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,63,255,.12);border:1px solid rgba(124,63,255,.25);border-radius:100px;padding:.38rem 1rem;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:#b39dff;margin-bottom:1.8rem}
+.thesis-title{font-family:var(--font-display);font-weight:900;font-size:clamp(1.2rem,2vw,1.85rem);letter-spacing:.03em;line-height:1.2;margin-bottom:1.5rem;max-width:750px}
+.thesis-meta-row{display:flex;flex-wrap:wrap;gap:2.5rem;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid var(--rim)}
+.tm{font-family:var(--font-mono);font-size:.65rem}
+.tm strong{color:var(--text);display:block;margin-bottom:.15rem;letter-spacing:.06em;font-weight:500}
+.tm span{color:var(--muted2)}
+.thesis-abstract{font-family:var(--font-mono);font-size:.72rem;line-height:1.95;color:rgba(221,228,240,.62);max-width:820px;margin-bottom:2.5rem}
+.thesis-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
+.th-metric{background:rgba(0,0,0,.4);border:1px solid var(--rim);border-radius:12px;padding:1.4rem;text-align:center;position:relative;overflow:hidden;transition:all .3s}
+.th-metric::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan))}
+.th-metric:hover{border-color:rgba(0,212,255,.15);transform:translateY(-3px)}
+.th-metric .mv{font-family:var(--font-display);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:.2rem}
+.th-metric .ml{font-family:var(--font-mono);font-size:.58rem;color:var(--muted2);letter-spacing:.15em;text-transform:uppercase}
+.thesis-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.5rem}
+.td-card{background:rgba(0,0,0,.25);border:1px solid var(--rim);border-radius:12px;padding:1.5rem;transition:border-color .3s}
+.td-card:hover{border-color:rgba(124,63,255,.25)}
+.td-card h4{font-family:var(--font-mono);font-size:.72rem;color:#b39dff;letter-spacing:.1em;margin-bottom:.75rem}
+.td-card p{font-family:var(--font-mono);font-size:.65rem;line-height:1.8;color:rgba(221,228,240,.58)}
+.model-pills{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem}
+.mp{background:rgba(124,63,255,.1);border:1px solid rgba(124,63,255,.18);color:#b39dff;font-family:var(--font-mono);font-size:.58rem;padding:.22rem .6rem;border-radius:5px;letter-spacing:.05em}
+.kw-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.kw{background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.15);color:var(--cyan);font-family:var(--font-mono);font-size:.6rem;padding:.25rem .65rem;border-radius:5px;letter-spacing:.06em}
+
+/* ── CONTACT ── */
+#contact{background:var(--deep);border-top:1px solid var(--rim)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.contact-headline{font-family:var(--font-display);font-weight:900;font-size:clamp(2rem,3.5vw,3.8rem);letter-spacing:.04em;line-height:1.05}
+.contact-headline em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.contact-sub{font-family:var(--font-mono);font-size:.72rem;line-height:1.9;color:var(--muted2);margin-top:1.2rem;max-width:380px}
+.contact-links{display:flex;flex-direction:column;gap:1rem}
+.cl{display:flex;align-items:center;gap:1.1rem;text-decoration:none;color:var(--text);padding:1rem 1.3rem;background:var(--panel);border:1px solid var(--rim);border-radius:12px;font-family:var(--font-mono);font-size:.72rem;transition:all .3s}
+.cl:hover{border-color:rgba(0,212,255,.2);color:var(--cyan);transform:translateX(8px);background:rgba(0,212,255,.03)}
+.cl-ico{width:36px;height:36px;background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;transition:background .3s}
+.cl:hover .cl-ico{background:rgba(0,212,255,.12)}
+.cl-body{display:flex;flex-direction:column;gap:2px}
+.cl-lbl{font-size:.56rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase}
+.cl-val{font-size:.72rem}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--rim);padding:1.5rem 5rem;display:flex;justify-content:space-between;align-items:center;background:var(--void);position:relative;z-index:1}
+footer span{font-family:var(--font-mono);font-size:.62rem;color:var(--muted)}
+footer .ft-accent{color:var(--cyan)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── GRID LINE BG ── */
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;z-index:0;pointer-events:none}
+
+/* ── GLOW ORBS ── */
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:.35}
+.orb-c{background:radial-gradient(circle,rgba(0,212,255,.5),transparent 70%);width:400px;height:400px}
+.orb-v{background:radial-gradient(circle,rgba(124,63,255,.5),transparent 70%);width:300px;height:300px}
+.orb-o{background:radial-gradient(circle,rgba(255,92,26,.4),transparent 70%);width:250px;height:250px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  nav{padding:1rem 2rem}
+  nav ul{display:none}
+  .sw{padding:5rem 2rem}
+  .hero-inner{grid-template-columns:1fr;padding:6rem 2rem 3rem}
+  .profile-scene{display:none}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:3rem}
+  .proj-grid{grid-template-columns:1fr}
+  .thesis-metrics{grid-template-columns:1fr 1fr}
+  .thesis-detail-grid{grid-template-columns:1fr}
+  .skills-panel{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:.5rem;text-align:center;padding:1.5rem 2rem}
+  .divider{margin:0 2rem}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="logo">RA<span>.</span>AI</a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#thesis">Thesis</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rummanaftab610@gmail.com" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="bg"></canvas>
+  <div class="orb orb-c" style="top:10%;left:-8%;opacity:.2"></div>
+  <div class="orb orb-v" style="top:50%;right:5%;opacity:.15"></div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="pulse-dot"></span>
+        Open to ML/AI Roles · 2026
+      </div>
+      <h1 class="hero-name">
+        <span class="first">Rumman</span>
+        <span class="last">Aftab</span>
+      </h1>
+      <p class="hero-role">AI / ML Engineer &nbsp;·&nbsp; Deep Learning &nbsp;·&nbsp; NLP</p>
+      <p class="hero-bio">M.Tech candidate at KIIT University building intelligent, scalable AI systems. Specializing in CNNs, Transformers, and end-to-end ML pipelines — from research to production deployment.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-fill">Explore Work</a>
+        <a href="#contact" class="btn-ghost">Get In Touch</a>
+      </div>
+    </div>
+
+    <div class="profile-scene">
+      <div class="profile-card" id="pcard">
+        <div class="pc-header">
+          <div class="pc-avatar">RA</div>
+          <div>
+            <div class="pc-name">Rumman Aftab</div>
+            <div class="pc-tag">AI · ML · DL · NLP</div>
+          </div>
+        </div>
+        <div class="pc-divider"></div>
+        <div class="pc-stats">
+          <div class="pc-stat"><span class="pc-stat-n">97%</span><div class="pc-stat-l">Train Acc.</div></div>
+          <div class="pc-stat"><span class="pc-stat-n">3+</span><div class="pc-stat-l">Projects</div></div>
+          <div class="pc-stat"><span class="pc-stat-n">M.Tech</span><div class="pc-stat-l">KIIT · 2026</div></div>
+          <div class="pc-stat"><span class="pc-stat-n">8.21</span><div class="pc-stat-l">B.Tech CGPA</div></div>
+        </div>
+        <div class="pc-skills">
+          <span class="pc-skill">TensorFlow</span>
+          <span class="pc-skill">PyTorch</span>
+          <span class="pc-skill">Keras</span>
+          <span class="pc-skill">BART</span>
+          <span class="pc-skill">Flask</span>
+          <span class="pc-skill">Streamlit</span>
+          <span class="pc-skill">Hugging Face</span>
+        </div>
+        <div class="pc-status">
+          <span class="pc-status-dot"></span>
+          <span class="pc-status-t">Available for opportunities</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="grid-bg"></div>
+  <div class="sw" style="position:relative;z-index:1">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="sec-label">About Me</div>
+        <h2 class="sec-title">Building <em>intelligent</em><br>systems</h2>
+        <div class="about-text" style="margin-top:1.5rem">
+          <p>I'm an innovative results-driven computer science student with deep expertise in Machine Learning, Deep Learning, and Natural Language Processing. Currently pursuing my M.Tech in AI & Data Science at KIIT University, Bhubaneswar.</p>
+          <p>My research focuses on applying CNN-based architectures to agricultural disease detection and Transformer-based models for NLP tasks. I'm passionate about making AI accessible, deployable, and impactful at scale.</p>
+          <p>Proficient in TensorFlow, Keras, PyTorch, Streamlit, and Flask with solid foundations in Python, SQL, and cloud infrastructure.</p>
+        </div>
+        <div class="edu-timeline">
+          <div class="edu-row">
+            <div class="edu-yr">2026*</div>
+            <div class="edu-info">
+              <strong>KIIT University, Bhubaneswar</strong>
+              <span>M.Tech — CSE · AI &amp; Data Science &nbsp;·&nbsp; CGPA 7.57*</span>
+            </div>
+          </div>
+          <div class="edu-row">
+            <div class="edu-yr">2022</div>
+            <div class="edu-info">
+              <strong>St. Thomas College of Engineering, Kolkata</strong>
+              <span>B.Tech — Information Technology &nbsp;·&nbsp; CGPA 8.21 / 82%</span>
+            </div>
+          </div>
+          <div class="edu-row">
+            <div class="edu-yr">2018</div>
+            <div class="edu-info">
+              <strong>Dr. S. Mishra College, Gatiramnagar</strong>
+              <span>Bihar School Examination Board &nbsp;·&nbsp; 62%</span>
+            </div>
+          </div>
+          <div class="edu-row">
+            <div class="edu-yr">2015</div>
+            <div class="edu-info">
+              <strong>High School Warisnagar</strong>
+              <span>Bihar School Examination Board &nbsp;·&nbsp; 71%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="sec-label">Core Stack</div>
+        <h2 class="sec-title">Skills &amp; <em>Tech</em></h2>
+        <div class="skills-panel" style="margin-top:1.5rem">
+          <div class="sk-card"><div class="sk-icon">🧠</div><h4>Deep Learning</h4><p>CNNs, RNNs, LSTM, Attention Mechanisms, Transformers</p></div>
+          <div class="sk-card"><div class="sk-icon">🔥</div><h4>Frameworks</h4><p>TensorFlow, Keras, PyTorch, FastAPI, Kaggle</p></div>
+          <div class="sk-card"><div class="sk-icon">💬</div><h4>NLP</h4><p>Hugging Face, BART, Seq2Seq, Tokenization, Fine-tuning</p></div>
+          <div class="sk-card"><div class="sk-icon">☁️</div><h4>Cloud &amp; DevOps</h4><p>AWS, Docker, Git &amp; GitHub, CI/CD Pipelines</p></div>
+          <div class="sk-card"><div class="sk-icon">📊</div><h4>Data Science</h4><p>NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn</p></div>
+          <div class="sk-card"><div class="sk-icon">🌐</div><h4>Web &amp; Deploy</h4><p>Flask, Streamlit, HTML/CSS/JS, PHP</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="orb orb-o" style="bottom:10%;right:-5%;opacity:.12"></div>
+  <div class="sw">
+    <div class="projects-header reveal">
+      <div>
+        <div class="sec-label">Work</div>
+        <h2 class="sec-title">Featured <em>Projects</em></h2>
+      </div>
+    </div>
+    <div class="proj-grid">
+
+      <div class="proj-card reveal">
+        <div class="proj-num">01</div>
+        <div class="proj-type">Computer Vision · Agriculture AI</div>
+        <h3 class="proj-title">Intelligent Agriculture: CNN Crop Disease Diagnosis &amp; Recommendation</h3>
+        <p class="proj-desc">Built a Convolutional Neural Network using TensorFlow &amp; Keras for automated crop disease classification. Utilized Hugging Face models for experimentation. Focused on Potato Disease Classification — Healthy, Early Blight, Late Blight — with advanced data augmentation and hyperparameter tuning.</p>
+        <div class="proj-kpis">
+          <div class="kpi"><span class="kpi-v">96%</span><span class="kpi-l">Test Accuracy</span></div>
+          <div class="kpi"><span class="kpi-v">3</span><span class="kpi-l">Disease Classes</span></div>
+          <div class="kpi"><span class="kpi-v">CNN</span><span class="kpi-l">Architecture</span></div>
+        </div>
+        <div class="tech-row">
+          <span class="tech">TensorFlow</span><span class="tech">Keras</span><span class="tech">CNN</span><span class="tech">Flask</span><span class="tech">NumPy</span><span class="tech">Pandas</span><span class="tech">Scikit-learn</span><span class="tech">HTML/CSS</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-num">02</div>
+        <div class="proj-type">NLP · Transformer Architecture</div>
+        <h3 class="proj-title">Text Summarization Using BART Transformer</h3>
+        <p class="proj-desc">Developed a text summarization model using Hugging Face Transformers with the BART architecture. Fine-tuned on domain-specific datasets for improved accuracy. Implemented tokenization pipelines and built a real-time Streamlit interface. Applied sequence-to-sequence modeling and attention mechanisms.</p>
+        <div class="proj-kpis">
+          <div class="kpi"><span class="kpi-v">BART</span><span class="kpi-l">Architecture</span></div>
+          <div class="kpi"><span class="kpi-v">Seq2Seq</span><span class="kpi-l">Model Type</span></div>
+          <div class="kpi"><span class="kpi-v">RT</span><span class="kpi-l">Real-time UI</span></div>
+        </div>
+        <div class="tech-row">
+          <span class="tech">Python</span><span class="tech">Hugging Face</span><span class="tech">BART</span><span class="tech">PyTorch</span><span class="tech">Streamlit</span><span class="tech">Scikit-learn</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-num">03</div>
+        <div class="proj-type">Full Stack · Web Development</div>
+        <h3 class="proj-title">Online Shopping Website</h3>
+        <p class="proj-desc">A full-stack e-commerce website featuring a catalog of trending items with an intuitive user interface. Implemented responsive frontend design using HTML, CSS, and JavaScript. Focused on user-friendly navigation, product listing, and full-stack web development concepts including client-side and server-side processing.</p>
+        <div class="proj-kpis">
+          <div class="kpi"><span class="kpi-v">Full</span><span class="kpi-l">Stack</span></div>
+          <div class="kpi"><span class="kpi-v">UI/UX</span><span class="kpi-l">Design</span></div>
+        </div>
+        <div class="tech-row">
+          <span class="tech">HTML</span><span class="tech">CSS</span><span class="tech">JavaScript</span><span class="tech">PHP</span><span class="tech">UI/UX</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal" style="background:linear-gradient(135deg,rgba(0,212,255,.04) 0%,rgba(124,63,255,.04) 100%);border-color:rgba(0,212,255,.1)">
+        <div class="proj-num" style="color:rgba(124,63,255,.1)">✦</div>
+        <div class="proj-type" style="color:#b39dff">Areas of Interest</div>
+        <h3 class="proj-title" style="color:var(--text)">What Drives My Research</h3>
+        <p class="proj-desc">Passionate about the intersection of deep learning and real-world impact — precision agriculture, intelligent document processing, and scalable AI deployment.</p>
+        <div class="model-pills" style="margin-top:1rem">
+          <span class="mp">Machine Learning</span>
+          <span class="mp">Deep Learning</span>
+          <span class="mp">NLP</span>
+          <span class="mp">Data Science &amp; Analytics</span>
+          <span class="mp">Cloud Computing</span>
+          <span class="mp">Computer Vision</span>
+          <span class="mp">Smart Agriculture</span>
+          <span class="mp">SWE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THESIS -->
+<section id="thesis">
+  <div class="orb orb-v" style="top:5%;left:-5%;opacity:.12"></div>
+  <div class="sw" style="position:relative;z-index:1">
+    <div class="reveal">
+      <div class="sec-label">Research</div>
+      <h2 class="sec-title">M.Tech <em>Thesis</em></h2>
+    </div>
+
+    <div class="thesis-hero-card reveal">
+      <div class="thesis-badge">📄 Master's Thesis &nbsp;·&nbsp; KIIT University &nbsp;·&nbsp; 2024–2026</div>
+      <h3 class="thesis-title">Crop Disease Classification Using Convolutional Neural Networks</h3>
+
+      <div class="thesis-meta-row">
+        <div class="tm"><strong>Supervisor</strong><span>Mr. Pushkar Kishore</span></div>
+        <div class="tm"><strong>Institution</strong><span>School of Computer Engineering, KIIT</span></div>
+        <div class="tm"><strong>Degree</strong><span>M.Tech — CSE (AI/DS)</span></div>
+        <div class="tm"><strong>Roll No.</strong><span>24167015</span></div>
+        <div class="tm"><strong>Dataset</strong><span>PlantVillage (~20,000 images)</span></div>
+      </div>
+
+      <p class="thesis-abstract">
+        This thesis presents an automated system for crop disease classification using a novel hybrid Convolutional Neural Network. Addressing the limitations of manual disease detection — time-consuming, subjective, requiring expert knowledge — the proposed system leverages deep learning to identify Early Blight, Late Blight, and Healthy conditions in potato leaf images. The hybrid CNN architecture integrates Inception modules, depthwise separable convolutions, and residual connections, trained with the Adam optimizer on PlantVillage data. The system is further enhanced with an LLM-based advisory module providing farmers with actionable, natural-language treatment recommendations after classification.
+      </p>
+
+      <div class="thesis-metrics">
+        <div class="th-metric"><span class="mv">97.33%</span><span class="ml">Training Accuracy</span></div>
+        <div class="th-metric"><span class="mv">89%</span><span class="ml">Test Accuracy</span></div>
+        <div class="th-metric"><span class="mv">87%</span><span class="ml">Precision</span></div>
+        <div class="th-metric"><span class="mv">86%</span><span class="ml">F1-Score</span></div>
+      </div>
+    </div>
+
+    <div class="thesis-detail-grid reveal" style="margin-top:1.5rem">
+      <div class="td-card">
+        <h4>🏗 Hybrid CNN Architecture</h4>
+        <p>Combines Inception modules for multi-scale feature extraction, depthwise separable convolutions for computational efficiency, and residual connections to prevent vanishing gradients. Detects subtle patterns — texture changes, discoloration, lesion morphology — across multiple spatial scales.</p>
+      </div>
+      <div class="td-card">
+        <h4>🤖 LLM Advisory Module</h4>
+        <p>An integrated Small Language Model (SLM) that generates context-sensitive treatment advice post-classification. Provides disease descriptions, symptoms, biological causes, and preventive strategies in natural language — making AI accessible to farmers without technical expertise.</p>
+      </div>
+      <div class="td-card">
+        <h4>📊 Data Pipeline</h4>
+        <p>Preprocessed ~20,000 labeled PlantVillage images with corruption filtering, uniform 224×224 resizing, pixel normalization (0–1), and augmentation (rotation, CLAHE). Strategically split into training and validation subsets for overfitting prevention and robust evaluation.</p>
+      </div>
+      <div class="td-card">
+        <h4>⚡ Baseline Benchmarks</h4>
+        <p>Outperformed five state-of-the-art lightweight models under identical experimental conditions. Hybrid CNN achieved 72.34% validation accuracy vs. EfficientNet's 15.04%, demonstrating vastly superior generalization.</p>
+        <div class="model-pills">
+          <span class="mp">MobileNetV2</span>
+          <span class="mp">EfficientNet</span>
+          <span class="mp">ShuffleNet</span>
+          <span class="mp">SqueezeNet</span>
+          <span class="mp">NASNet-Mobile</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:1.5rem">
+      <div class="td-card" style="border-color:rgba(0,212,255,.12)">
+        <h4 style="color:var(--cyan)">🔬 Keywords</h4>
+        <div class="kw-row">
+          <span class="kw">Crop Disease Classification</span>
+          <span class="kw">Convolutional Neural Networks</span>
+          <span class="kw">Deep Learning</span>
+          <span class="kw">Image Processing</span>
+          <span class="kw">MobileNet V2</span>
+          <span class="kw">EfficientNet</span>
+          <span class="kw">SqueezeNet</span>
+          <span class="kw">ShuffleNet</span>
+          <span class="kw">PlantVillage</span>
+          <span class="kw">Smart Farming</span>
+          <span class="kw">TensorFlow</span>
+          <span class="kw">Keras</span>
+          <span class="kw">Adam Optimizer</span>
+          <span class="kw">Transfer Learning</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sw">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="sec-label">Contact</div>
+        <h2 class="contact-headline">Let's build<br><em>something</em><br>together</h2>
+        <p class="contact-sub">I'm actively seeking ML Engineering and Data Science opportunities. Whether you have a role, project, or just want to discuss AI — reach out.</p>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:rummanaftab610@gmail.com" class="cl">
+          <div class="cl-ico">✉️</div>
+          <div class="cl-body"><span class="cl-lbl">Email</span><span class="cl-val">rummanaftab610@gmail.com</span></div>
+        </a>
+        <a href="https://www.linkedin.com/in/rumman-aftab-460a56220" target="_blank" class="cl">
+          <div class="cl-ico">🔗</div>
+          <div class="cl-body"><span class="cl-lbl">LinkedIn</span><span class="cl-val">rumman-aftab-460a56220</span></div>
+        </a>
+        <a href="tel:+917070559705" class="cl">
+          <div class="cl-ico">📱</div>
+          <div class="cl-body"><span class="cl-lbl">Phone</span><span class="cl-val">+91 7070559705</span></div>
+        </a>
+        <a href="#" class="cl">
+          <div class="cl-ico">📍</div>
+          <div class="cl-body"><span class="cl-lbl">Location</span><span class="cl-val">Bhubaneswar, Odisha, India</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 <span class="ft-accent">Rumman Aftab</span> — AI/ML Engineer</span>
+  <span>KIIT University, Bhubaneswar</span>
+  <span class="ft-accent">Open to Opportunities</span>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cur2.style.left=rx+'px';cur2.style.top=ry+'px';requestAnimationFrame(loop)})();
+
+/* ── SCROLL PROGRESS ── */
+window.addEventListener('scroll',()=>{
+  const st=document.documentElement.scrollTop;
+  const dh=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('prog').style.width=(st/dh*100)+'%';
+});
+
+/* ── PARTICLE CANVAS ── */
+const cv=document.getElementById('bg');
+const cx=cv.getContext('2d');
+function rsz(){cv.width=window.innerWidth;cv.height=window.innerHeight}
+rsz();window.addEventListener('resize',rsz);
+const P=[];
+for(let i=0;i<160;i++)P.push({x:Math.random()*cv.width,y:Math.random()*cv.height,z:Math.random()*.8+.2,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25});
+function drawBg(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  P.forEach((p,i)=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=cv.width;if(p.x>cv.width)p.x=0;
+    if(p.y<0)p.y=cv.height;if(p.y>cv.height)p.y=0;
+    const a=p.z*.5;
+    cx.beginPath();cx.arc(p.x,p.y,p.z*1.2,0,Math.PI*2);
+    cx.fillStyle=`rgba(0,212,255,${a})`;cx.fill();
+    for(let j=i+1;j<P.length;j++){
+      const q=P[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<110){
+        cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(q.x,q.y);
+        cx.strokeStyle=`rgba(0,212,255,${(1-d/110)*.07})`;cx.lineWidth=.5;cx.stroke();
+      }
+    }
+  });
+  requestAnimationFrame(drawBg);
+}
+drawBg();
+
+/* ── 3D CARD PARALLAX ── */
+const pc=document.getElementById('pcard');
+if(pc){
+  let targetRY=-12,targetRX=6,curRY=-12,curRX=6;
+  document.addEventListener('mousemove',e=>{
+    const rect=pc.getBoundingClientRect();
+    const cx2=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+    targetRY=(e.clientX-cx2)/window.innerWidth*30-12;
+    targetRX=-(e.clientY-cy)/window.innerHeight*20+6;
+  });
+  (function tilt(){
+    curRY+=(targetRY-curRY)*.07;
+    curRX+=(targetRX-curRX)*.07;
+    pc.style.transform=`rotateY(${curRY}deg) rotateX(${curRX}deg)`;
+    requestAnimationFrame(tilt);
+  })();
+}
+
+/* ── CARD GLOW FOLLOW ── */
+document.querySelectorAll('.proj-card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    c.style.setProperty('--mx',(e.clientX-r.left)/r.width*100+'%');
+    c.style.setProperty('--my',(e.clientY-r.top)/r.height*100+'%');
+  });
+});
+
+/* ── REVEAL ON SCROLL ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
